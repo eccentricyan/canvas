@@ -4,16 +4,16 @@ var canvas = document.getElementById("canvas");
 var c = canvas.getContext("2d");
 
 //変数の設定と初期化
-var frame = 0;											// 全体のフレームカウント
-var target = {x:250, y:100,dir:1};  	// ターゲット（位置と移動方向）
-var player = {x:250, y:400};					// プレイヤー（位置）
-var ball = {x:-10, y:-10};					// ボール（位置）
-var point = 0;											// 得点
+var frame = 0; // 全体のフレームカウント
+var target = {x:250, y:100,dir:1}; // ターゲット（位置と移動方向）
+var player = {x:250, y:400}; // プレイヤー（位置）
+var ball = {x:-10, y:-10}; // ボール（位置）
+var point = 0; // 得点
 var balls = [ball];
 
 setInterval(anime, 50);
 
-function anime(){									//アニメ関数
+function anime(){ //アニメ関数
   frame++;
   //★画面をクリア
   myClear();
@@ -27,7 +27,15 @@ function anime(){									//アニメ関数
   // myHeart(player.x, player.y);
   //★ballを描画
   for(let i = 0; i < balls.length; i++) {
-    myBall(balls[i].x - 5, balls[i].y);
+    let f = 1 + Math.floor( Math.random() * 2 );
+    switch(f) {
+      case 1:
+        myCircle(balls[i].x - 5, balls[i].y);
+        break;
+      case 2:
+        myBall(balls[i].x - 5, balls[i].y);
+        break;
+    }
     balls[i].y -= 5;
     //得点ゲット
     if ((100 == balls[i].y) && (Math.abs(target.x - balls[i].x)<25)){
@@ -69,6 +77,15 @@ function myPlayer(x, y){
 function myBall(x, y){
   c.fillStyle = "red";
   c.fillRect(x - 5, y - 5, 10, 10);
+}
+
+function myCircle(x,y){
+  c.beginPath();
+  c.moveTo(x,y);
+  c.arc(x, y, 10, 0, 2*Math.PI, false);
+  c.closePath();
+  c.fillStyle = "pink";
+  c.fill();
 }
 
 function addBall(x, y) {
